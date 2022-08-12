@@ -94,7 +94,7 @@ function history(){
 			</tr>
 			<tr>
 			<td class="Depth03">
-					<a href="/cart/getCartList"  target="rightFrame">구매이력조회</a>
+					<a href="/cart/getCartList"  target="rightFrame">장바구니 바로가기</a>
 			</td>
 			</tr>
 			</c:if>

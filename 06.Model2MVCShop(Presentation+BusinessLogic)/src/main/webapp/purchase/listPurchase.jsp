@@ -61,15 +61,15 @@
 		<c:set var="i" value="${i+1 }"/>
 			<tr class="ct_list_pop">
 		<td align="center">
-			<a href="/getPurchase.do?tranNo=${purchaseVO.tranNo}">${purchaseVO.tranNo}</a>
+			<a href="/purchase/getPurchase?tranNo=${purchaseVO.tranNo}">${purchaseVO.tranNo}</a>
 		</td>
 		<td></td>
 		<td align="left">
-			<a href="/getUser.do?userId=${userVO.userId}">${purchaseVO.buyer.userId}</a>
+			<a href="/user/getUser?userId=${userVO.userId}">${purchaseVO.buyer.userId}</a>
 		</td>
 		<td></td>
 		<td align="left">
-			<a href="/getPurchase.do?tranNo=${purchaseVO.tranNo}">${purchaseVO.purchaseProd.prodName }</a>
+			<a href="/purchase/getPurchase?tranNo=${purchaseVO.tranNo}">${purchaseVO.purchaseProd.prodName }</a>
 		</td>
 		<td></td>
 		<td align="left">${purchaseVO.receiverPhone }</td>
@@ -83,7 +83,7 @@
 		<td></td>
 		<td align="left">
 		<c:if test="${purchaseVO.tranCode == '배송완료'}">
-			<a	href="updateTranCode.do?prodNo=${purchaseVO.purchaseProd.prodNo }&tranCode=${purchaseVO.tranCode}">
+			<a	href="/purchase/updateTranCode?prodNo=${purchaseVO.purchaseProd.prodNo }&tranCode=${purchaseVO.tranCode}">
 					물건도착 </a> 
 		</c:if>
 		</td>

@@ -26,13 +26,13 @@
 		    if( chk_arr[i].checked == true ) {
 		        chk_data.push(chk_arr[i].value);
 		    
-		    }
- 	 	   alert(chk_data) 
-		    location.href = "/addCartPurchase.do?prodNo="+chk_data;
+		    } 
+ 	 	  
+		   
 		} 
-		alert("¾Æ Á¦¹ß");
-		document.detailForm.action = "/purchase/addPurchase.do?prodNo"+chk_data;
-		doucument.detatilFoem.submit();
+		alert(chk_data)  
+		location.href = "/purchase/addCartPurchaseView?prodNo="+chk_data;
+	
 		
 	}
 
@@ -90,7 +90,7 @@
 		<td align="left">${cart.buyerId.userId}</td>
 		<td></td>
 		<td align="left">
-			<a href="/getProduct.do?prodNo=${cart.prodNo.prodNo}">${cart.prodNo.prodName}</a>			
+			<a href="/product/getProduct?prodNo=${cart.prodNo.prodNo}">${cart.prodNo.prodName}</a>			
 		</td>			
 		<td></td>
 		<td align="left">
