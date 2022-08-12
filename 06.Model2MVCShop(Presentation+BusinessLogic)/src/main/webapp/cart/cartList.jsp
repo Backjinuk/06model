@@ -1,17 +1,46 @@
 <%@ page language="java" contentType="text/html;charset=euc-kr"
 	pageEncoding="euc-kr"%>
+	
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-<title>구매 목록조회</title>
+<title>장바구니 목록조회</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 <script type="text/javascript">
+	
 	function fncGetList(currentPage) {
 		document.getElementById("currentPage").value = currentPage;
 		document.detailForm.submit();
 	}
+	
+	function cartList() {		
+		alert("실행");		
+		
+		var chk_arr = document.getElementsByName("chekList");
+		
+		var chk_data = [];
+
+		for( var i=0; i<chk_arr.length; i++ ) {
+		    if( chk_arr[i].checked == true ) {
+		        chk_data.push(chk_arr[i].value);
+		    
+		    }
+ 	 	   alert(chk_data) 
+		    location.href = "/addCartPurchase.do?prodNo="+chk_data;
+		} 
+		alert("아 제발");
+		document.detailForm.action = "/purchase/addPurchase.do?prodNo"+chk_data;
+		doucument.detatilFoem.submit();
+		
+	}
+
+
+</script>
+
+<script type="text/javascript">
+
 </script>
 </head>
 
@@ -19,7 +48,7 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/purchase/listPurchase" method="post">
+<form name="detailForm" action="/cart/getCartList" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -27,7 +56,7 @@
 		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="93%" class="ct_ttl01">구매 목록조회</td>
+					<td width="93%" class="ct_ttl01">장바구니 목록조회</td>
 				</tr>
 			</table>
 		</td>
@@ -45,56 +74,37 @@
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width="150">회원ID</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">상품명</td>
+		<td class="ct_list_b">상품명</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">전화번호</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">배송현황</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">정보수정</td>
+		<td class="ct_list_b">수량</td>
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
-	</tr>
+	</tr> 
 	<c:set  var="i" value="0"/>
-	<c:forEach var="purchaseVO" items="${list }">
+	<c:forEach var="cart" items="${list }">
 		<c:set var="i" value="${i+1 }"/>
 			<tr class="ct_list_pop">
-		<td align="center">
-			<a href="/getPurchase.do?tranNo=${purchaseVO.tranNo}">${purchaseVO.tranNo}</a>
-		</td>
+		<td align="center">${cart.cartNo}</td>
+		<td></td>
+		<td align="left">${cart.buyerId.userId}</td>
 		<td></td>
 		<td align="left">
-			<a href="/getUser.do?userId=${userVO.userId}">${purchaseVO.buyer.userId}</a>
-		</td>
+			<a href="/getProduct.do?prodNo=${cart.prodNo.prodNo}">${cart.prodNo.prodName}</a>			
+		</td>			
 		<td></td>
 		<td align="left">
-			<a href="/getPurchase.do?tranNo=${purchaseVO.tranNo}">${purchaseVO.purchaseProd.prodName }</a>
-		</td>
+		<input type="checkbox" value="${cart.prodNo.prodNo }" name="chekList" />
+			<input type="button" 
+				onclick="location.href='/deleteCart.do?cartNo=${cart.cartNo }'"  value="삭제"/></td>
 		<td></td>
-		<td align="left">${purchaseVO.receiverPhone }</td>
-		<td></td>
-		<td align="left">
-				${! empty  purchaseVO.tranCode && purchaseVO.tranCode == "구매완료" ? "현재 구매완료 상태입니다" 	: "" }
-				${! empty  purchaseVO.tranCode && purchaseVO.tranCode == "배송완료" ? "현재 배송중 상태 입니다" 	: "" }
-				${! empty  purchaseVO.tranCode && purchaseVO.tranCode == "물건배송" ? "현재 배송완료된 상태입니다" 	: "" }
-				
-			</td>
-		<td></td>
-		<td align="left">
-		<c:if test="${purchaseVO.tranCode == '배송완료'}">
-			<a	href="updateTranCode.do?prodNo=${purchaseVO.purchaseProd.prodNo }&tranCode=${purchaseVO.tranCode}">
-					물건도착 </a> 
-		</c:if>
-		</td>
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
 	</tr>
 	</c:forEach>
-</table>
-		
-	
+</table>	
+<input type="button" onclick="cartList();"  value="구매" style="float: right ;"/>
 
 
 

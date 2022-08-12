@@ -9,33 +9,42 @@
 
 	
 	<resultMap type="purchase" id="purchaseSelectMap">
-		<result property="tranNo" 				column="TRAN_NO" 		jdbcType="INTEGER"/>
-  		<result property="purchaseProd.prodNo" 	column="PROD_NO" 		jdbcType="INTEGER"/>
-  		<result property="buyer.userId" 		column="BUYER_ID"		jdbcType="VARCHAR"/>
-  		<result property="paymentOption"		column="PAYMENT_OPTION" jdbcType="CHAR"/>
-  		<result property="receiverName" 		column="RECEIVER_NAME" 	jdbcType="VARCHAR"/>
-  		<result property="receiverPhone" 		column="RECEIVER_PHONE" jdbcType="VARCHAR"/>
-  		<result property="divyAddr" 			column="DLVY_ADDR" 		jdbcType="VARCHAR"/>
-  		<result property="divyRequest" 			column="DLVY_REQUEST" 	jdbcType="VARCHAR"/>
+		<result property="tranNo" 				column="TRAN_NO" 			jdbcType="INTEGER"/>
+  		<result property="purchaseProd.prodNo" 	column="PROD_NO" 			jdbcType="INTEGER"/>
+  		<result property="buyer.userId" 		column="BUYER_ID"			jdbcType="VARCHAR"/>
+  		<result property="paymentOption"		column="PAYMENT_OPTION" 	jdbcType="CHAR"/>
+  		<result property="receiverName" 		column="RECEIVER_NAME" 		jdbcType="VARCHAR"/>
+  		<result property="receiverPhone" 		column="RECEIVER_PHONE" 	jdbcType="VARCHAR"/>
+  		<result property="divyAddr" 			column="DLVY_ADDR" 			jdbcType="VARCHAR"/>
+  		<result property="divyRequest" 			column="DLVY_REQUEST" 		jdbcType="VARCHAR"/>
   		<result property="tranCode" 			column="TRAN_STATUS_CODE" 	jdbcType="CHAR"/>
   		<result property="orderDate" 			column="ORDER_DATA" 		jdbcType="DATE"/>  		 
-  		<result property="divyDate" 			column="DLVY_DATE"		jdbcType="DATE"/>
+  		<result property="divyDate" 			column="DLVY_DATE"			jdbcType="DATE"/>
   	</resultMap>
 	
 	
 	<insert id="addPurchase" parameterType="purchase">
 		INSERT 
-		INTO transaction(TRAN_NO,PROD_NO,BUYER_ID,PAYMENT_OPTION,RECEIVER_NAME,RECEIVER_PHONE,DEMAILADDR,DLVY_REQUEST,ORDER_DATA)
+		INTO transaction(TRAN_NO, PROD_NO, BUYER_ID, PAYMENT_OPTION, RECEIVER_NAME, RECEIVER_PHONE, DEMAILADDR,DLVY_REQUEST,ORDER_DATA)
 			VALUES(seq_transaction_tran_no.nextval,
 					#{purchaseProd.prodNo:INTEGER},
 					#{buyer.userId:VARCHAR},
 					#{paymentOption},
 					#{receiverName},
 					#{receiverPhone},
-					#{divyAddr},
+					#{divyAddr}, 
 					#{divyRequest},
 					SYSDATE)
 	</insert>
+	
+	<update id="updateTranCode" parameterType="purchase">
+	UPDATE
+	transaction
+	<set>
+		tran_status_code = #{tranCode}
+		WHERE prod_no = #{purchaseProd.prodNo:INTEGER}
+	</set>	
+	</update>
 	
 	<select id="getPurchase" parameterType= "int" resultMap="purchaseSelectMap">
 		select

@@ -21,7 +21,7 @@
 
 	<div style="width: 98%; margin-left: 10px;"> 
 
-		<form name="detailForm" method="post" action="/listProduct.do">
+		<form name="detailForm" method="post" action="/product/listProduct">
 
 			<table width="100%" height="37" border="0" cellpadding="0"
 				cellspacing="0">
@@ -113,7 +113,7 @@
 					<td align="center">${i }</td>
 					<td></td>
 					<td align="left">
-						<a href="/getProduct.do?prodNo=${productVO.prodNo }">${productVO.prodName }</a></td>					
+						<a href="/product/getProduct?prodNo=${productVO.prodNo }">${productVO.prodName }</a></td>					
 					<td></td>
 					<td align="left">${productVO.price }</td>
 					<td></td>
@@ -121,13 +121,10 @@
 					<td></td>
 					<td align="left">
 					<c:choose>
-						<c:when test="${userVO.userId eq 'admin' }">
-							<c:choose>						
-									<c:when test="${ productVO.proTranCode eq 'null'  }">
-										판매중						
-									</c:when>								
+						<c:when test="${user.userId eq 'admin' }">
+							<c:choose>												
 								<c:when test="${! empty productVO.proTranCode && productVO.proTranCode eq '구매완료' }">
-									<a href="updateTranCodeByProd.do?prodNo=${productVO.prodNo }&tranCode=${purchaseVO.tranCode}">
+									<a href="/product/updateTranCodeByProd?prodNo=${productVO.prodNo }&tranCode=${productVO.proTranCode}">
 											배송하기 </a> 	
 								</c:when>
 								<c:otherwise>							
@@ -135,11 +132,11 @@
 								</c:otherwise>	
 							</c:choose>																			
 						</c:when>
-							<c:when test="${! empty productVO.proTranCode }">
-									${productVO.proTranCode }
+							<c:when test="${! empty productVO.proTranCode && productVO.proTranCode eq '배송완료' }">
+									
 							</c:when>
 							<c:otherwise>
-									판매중
+									${productVO.proTranCode }
 							</c:otherwise>
 					</c:choose>						
 					</td>					
