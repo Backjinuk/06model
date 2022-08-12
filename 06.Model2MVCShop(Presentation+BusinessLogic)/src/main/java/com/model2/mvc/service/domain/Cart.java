@@ -11,7 +11,8 @@ public class Cart {
 	private int cartValnum;
 	
 	private String cartCode;
-
+	
+	private String tranCartCode;
 	
 	public String getCartCode() {
 		return cartCode;
@@ -23,9 +24,9 @@ public class Cart {
 
 	public Product getProdNo() {
 		return prodNo;
-	}
-	public void setProdNo(Product prodNo) {
-		this.prodNo = prodNo;
+	} 
+	public Product setProdNo(Product prodNo) { 
+		return this.prodNo = prodNo;
 	}
 	public User getBuyerId() {
 		return buyerId;
@@ -49,6 +50,12 @@ public class Cart {
 	public String toString() {
 		return "CartVO [prodNo=" + prodNo + ", buyerId=" + buyerId + ", cartNo=" + cartNo + ", cartValnum=" + cartValnum
 				+ ", cartCode=" + cartCode + "]";
+	}
+	public String getTranCartCode() {
+		return tranCartCode;
+	}
+	public void setTranCartCode(String tranCartCode) {
+		this.tranCartCode = tranCartCode;
 	}
 
 

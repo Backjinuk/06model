@@ -21,7 +21,7 @@ function fncAddPurchase() {
 </head>
 
 <body>
-<form name="addPurchase" method="post" action="/addPurchase.do">
+<form name="addPurchase" method="post" action="/purchase/addPurchase">
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
 		<td width="15" height="37">
@@ -186,7 +186,7 @@ function fncAddPurchase() {
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6">
-			<input type="hidden" name="tran_code" value="구매완료">
+			<input type="hidden" name="tranCode" value="구매완료">
 		</td>
 	
 	</tr>

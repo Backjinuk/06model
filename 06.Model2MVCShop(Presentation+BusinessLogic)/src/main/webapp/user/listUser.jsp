@@ -11,7 +11,7 @@
 <script type="text/javascript">
 
 	// 검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
-	function fncGetList(currentPage) {
+	function fncGetUserList(currentPage) {
 		document.getElementById("currentPage").value = currentPage;
 	   	document.detailForm.submit();		
 	}
@@ -24,7 +24,10 @@
 
 <div style="width:98%; margin-left:10px;">
 
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 <form name="detailForm" action="/listUser.do" method="post">
+////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<form name="detailForm" action="/user/listUser" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -94,7 +97,11 @@
 		<tr class="ct_list_pop">
 			<td align="center">${ i }</td>
 			<td></td>
-			<td align="left"><a href="/getUser.do?userId=${user.userId}">${user.userId}</a></td>
+			<td align="left">
+				<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				<a href="/getUser.do?userId=${user.userId}">${user.userId}</a></td>
+               	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+			<a href="/user/getUser?userId=${user.userId}">${user.userId}</a></td>
 			<td></td>
 			<td align="left">${user.userName}</td>
 			<td></td>

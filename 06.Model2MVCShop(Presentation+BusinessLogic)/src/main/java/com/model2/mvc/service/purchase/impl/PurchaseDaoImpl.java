@@ -18,7 +18,7 @@ import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.purchase.PurchaseDao;
 
 @Repository("purchaseDaoImpl")
-public class PurchaseDaoImpl implements PurchaseDao {
+public class PurchaseDaoImpl implements PurchaseDao { 
 	
 	@Autowired
 	@Qualifier("sqlSessionTemplate")
@@ -71,5 +71,9 @@ public class PurchaseDaoImpl implements PurchaseDao {
 		map.put("list", list);
 
 		return map;
+	}
+	@Override
+	public void updateTranCode(Purchase purchase) throws Exception {
+		sqlSession.update("PurchaseMapper.updateTranCode", purchase);
 	}
 }
