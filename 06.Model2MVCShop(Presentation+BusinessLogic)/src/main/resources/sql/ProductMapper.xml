@@ -13,6 +13,7 @@
 		<result property="manuDate" 	column="Mannufacture_day" 	jdbcType="VARCHAR"/>	
 		<result property="price" 		column="price" 				jdbcType="INTEGER"/>	
 		<result property="fileName" 	column="image_file" 		jdbcType="VARCHAR"/>	
+		<result property="proTranCode" 	column="tc"					jdbcType="VARCHAR" />
 		<result property="regDate" 		column="reg_date" 			jdbcType="DATE"/>	
 	</resultMap>
 	
@@ -53,10 +54,10 @@
 	</update>
 	
 	<sql id="getUserList">	
-		SELECT p.*, t.prod_no  AS pn ,t.tran_status_code AS tc
-		FROM product p , transaction t		
+		SELECT p.*, t.prod_no  AS pn , t.tran_status_code AS tc
+		FROM product p , transaction t
 		<where>
-		p.prod_no = t.prod_no(+)
+			p.prod_no = t.prod_no(+)
 			<if test="searchCondition != null">
 				<if test="searchCondition == 0 and searchKeyword !='' " >
 					 AND p.prod_no like'%'||#{searchKeyword}||'%'

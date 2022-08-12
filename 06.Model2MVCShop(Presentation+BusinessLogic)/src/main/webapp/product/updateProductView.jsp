@@ -60,8 +60,8 @@ function resetData() {
 
 <body bgcolor="#ffffff" text="#000000">
 <!-- 유효성 chek -->
-<form name="detailForm"  method="post" action="/updateProduct.do">
-<input type="text" name="prodNo" value="<%=productVO.getProdNo() %>">
+<form name="detailForm"  method="post" action="/product/updateProduct">
+<input type="text" name="prodNo" value="${productVO.getProdNo }>">
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
 		<td width="15" height="37">
@@ -95,7 +95,7 @@ function resetData() {
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="105">
-						<input type="text" name="prodName" class="ct_input_bg" value="<%= productVO.getProdName() %>"
+						<input type="text" name="prodName" class="ct_input_bg" value="${productVO.prodName } %>"
 								style="width:100px; height:19px"  maxLength="20" >
 					</td>
 				</tr>
@@ -113,7 +113,7 @@ function resetData() {
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="text" name="prodDetail" class="ct_input_g"  value="<%= productVO.getProdDetail() %>"
+			<input 	type="text" name="prodDetail" class="ct_input_g"  value="${productVO.prodDetail}"
 							style="width:500px; height:50px"  maxLength="25" minLength="20"  />
 		</td>
 	</tr>
@@ -128,7 +128,7 @@ function resetData() {
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="date" name="manuDate" class="ct_input_g" value="<%= productVO.getManuDate() %>"
+			<input type="date" name="manuDate" class="ct_input_g" value="${ productVO.manuDate}"
 							style="width:100px; height:19px"  maxLength="10" minLength="6"  />
 		</td>
 	</tr>
@@ -143,7 +143,7 @@ function resetData() {
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="text" name="price" class="ct_input_g" value="<%= productVO.getPrice() %>"
+			<input 	type="text" name="price" class="ct_input_g" value="${productVO.price}"
 							style="width:100px; height:19px"  maxLength="50" >원
 		</td>
 	</tr>

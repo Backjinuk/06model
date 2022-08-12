@@ -59,7 +59,7 @@ function resetData() {
 
 <body bgcolor="#ffffff" text="#000000">
 <!-- À¯È¿¼º chek -->
-<form name="detailForm"  method="post" action="/addProduct.do">
+<form name="detailForm"  method="post" action="/product/addProduct">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>

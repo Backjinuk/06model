@@ -14,8 +14,10 @@ public interface PurchaseDao {
 
 	void updatePurchase(Purchase purchase)throws Exception;
 
-	Map<String, Object> getPurchaseList(Search search, String userId);
+	Map<String, Object> getPurchaseList(Search search, String userId) throws Exception;
 
 	int getTotalCount(Search search);
+
+	void updateTranCode(Purchase purchase) throws Exception;
 
 }
