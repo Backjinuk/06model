@@ -11,9 +11,12 @@ public interface ProductService {
 	
 	public Product getProduct(int prodNo) throws Exception;
 	
+	public Product getProducts(int[] prodNo);
+
 	public int updateProduct(Product product) throws Exception;
 	
 	public Map<String, Object> getProductList(Search search) throws Exception;
+
 	
 }
  

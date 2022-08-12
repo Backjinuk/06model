@@ -28,11 +28,9 @@
 		    
 		    }
  	 	   alert(chk_data) 
-		    location.href = "/addCartPurchase.do?prodNo="+chk_data;
+		    location.href = "/purchase/addPurchase.do?prodNo"+chk_data;
 		} 
-		alert("¾Æ Á¦¹ß");
-		document.detailForm.action = "/purchase/addPurchase.do?prodNo"+chk_data;
-		doucument.detatilFoem.submit();
+
 		
 	}
 

@@ -1,5 +1,7 @@
 package com.model2.mvc.web.Controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -63,7 +65,7 @@ public class PurchaseController {
 										Model model) throws Exception {
 		System.out.println("addPurchaseView start");
 		
-		Product product = productService.getProduct(prodNo);
+		Product product = productService.getProduct(prodNo); 
 		
 		
 		model.addAttribute("productVO", product);
@@ -76,23 +78,41 @@ public class PurchaseController {
 		return mv;
 	}
 	//@RequestMapping("/addPurchase.do")
-	@RequestMapping(value = "addpurchase" , method = RequestMethod.POST)
-	public ModelAndView addPurchase(@ModelAttribute("productVO")Product productVO,
+	@RequestMapping(value =  "addCartPurchaseView" , method = RequestMethod.GET)
+	public ModelAndView addCartPurchaseView(@ModelAttribute("prodNo")int[] prodNo,
+											HttpSession session, Model model) {
+		System.out.println("addCartPurchaseView start");
+				
+		model.addAttribute("prodNo" , prodNo);
+		model.addAttribute("userVO", session.getAttribute("user"));
+		
+		ModelAndView mv = new ModelAndView();
+		
+		mv.setViewName("forward:/purchase/addCartPurchaseView.jsp");
+		
+		return mv;		
+	}
+	//@RequestMapping("/addPurchase.do")
+	@RequestMapping(value = "addpurchase" , method = RequestMethod.GET)
+	public ModelAndView addPurchase(@RequestParam("prodNo")int[] prodNo,
 									HttpSession session, HttpServletRequest requset,
 									@ModelAttribute("purchaseVO")Purchase purchaseVO,
 									Model model) throws Exception {
-		
-		purchaseVO.setPurchaseProd(productVO);
-		//user.getUserId()
+	
 		purchaseVO.setBuyer((User)session.getAttribute("user"));
 		
-		purchaseService.addPurchase(purchaseVO);
+		for (int i = 0; i < prodNo.length; i++) {			
+			System.out.println("addpurchase start :" + prodNo[i]);
+			purchaseVO.setPurchaseProd(productService.getProduct(prodNo[i])); 
+			purchaseService.addPurchase(purchaseVO);
+			System.out.println("purchaseVO: " + purchaseVO);
+		}
 		
 		//purchaseService.updatePurchase(purchaseVO);
 		
 		System.out.println("purchaseVO ÀÇ Á¤º¸ :" + purchaseVO);
 		
-		model.addAttribute("purchaseVO", purchaseVO);
+		model.addAttribute("prodNo", prodNo);
 		session.setAttribute("buyer", purchaseVO.getBuyer());
 		
 		ModelAndView mv = new ModelAndView();

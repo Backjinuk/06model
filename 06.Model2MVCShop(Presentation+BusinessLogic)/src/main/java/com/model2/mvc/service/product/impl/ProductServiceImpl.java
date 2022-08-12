@@ -50,6 +50,10 @@ public class ProductServiceImpl implements ProductService{
 		map.put("totalCount", new Integer(totalCount));
 		
 		return map;
+	}
+	@Override
+	public Product getProducts(int[] prodNo) {
+		return productDao.getProducts(prodNo);
 	} 
 
 
