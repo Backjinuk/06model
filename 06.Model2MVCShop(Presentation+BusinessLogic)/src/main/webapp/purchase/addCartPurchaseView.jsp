@@ -8,20 +8,25 @@
 
 <title>Insert title here</title>
 
-<script type="text/javascript" src="../javascript/calendar.js">
-</script>
-
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
-
-function fncAddPurchase() {
-	document.addPurchase.submit();
-}
+	$(function() {
+		
+		$(".ct_btn01:contains('구매')").on("click", function() {
+			alert("구매되었습니다")
+			$("form").attr("action", "/purchase/addpurchase").attr("method", "post").submit();
+		});
+		
+		$(".ct_btn01:contains('취소')").on("click", function() {
+			history.go(-1);
+		});
+	});
 
 </script>
 </head>
 
 <body>
-<form name="addPurchase" method="get" action="/purchase/addpurchase">
+<form>
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
 		<td width="15" height="37">
@@ -46,14 +51,17 @@ function fncAddPurchase() {
 </c:forEach>
 
 
+
 <table width="600" border="0" cellspacing="0" cellpadding="0"	align="center" style="margin-top: 13px;">
 	<tr>
 		<td width="104" class="ct_write">
 			구매자아이디 <img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${userVO.userId }</td>
+		<td class="ct_write01">
 		<input type="hidden" name="buyerId" value="${userVO.userId }" />
+		${userVO.userId }</td>
+		
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -143,7 +151,7 @@ function fncAddPurchase() {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						<a href="javascript:fncAddPurchase();">구매</a>
+						구매
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -153,7 +161,7 @@ function fncAddPurchase() {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						<a href="javascript:history.go(-1)">취소</a>
+						취소
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>

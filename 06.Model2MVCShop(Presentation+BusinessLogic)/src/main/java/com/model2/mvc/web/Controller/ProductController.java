@@ -55,7 +55,7 @@ public class ProductController {
 	@RequestMapping(value = "addProduct",  method=RequestMethod.POST)
 	public String addProduct(@ModelAttribute("product") Product product) 
 															throws Exception {
-		System.out.println("addProduct");
+		System.out.println("addProduct : " + product);
 		
 		String date = product.getManuDate();
 		

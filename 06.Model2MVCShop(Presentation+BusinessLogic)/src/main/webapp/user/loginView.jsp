@@ -6,9 +6,10 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 
-	function fncLogin() {
+/* 	function fncLogin() {
 		var id=document.loginForm.userId.value;
 		var pw=document.loginForm.password.value;
 		if(id == null || id.length <1) {
@@ -29,7 +30,41 @@
 	window.onload = function(){
 		document.getElementById("userId").focus();
 	}
-
+ */
+ 
+		 $( function() {
+			 
+			$("#userId").focus();
+			
+			$("img[src='/images/btn_login.gif']").on("click", function() {
+				
+				var id = $("input:text").val();
+				var pw = $("input:password").val();
+				
+				if(id == null || id.lengh <1){
+					alert("ID를 입력 하지 않았습니다");
+					$("input:text").focus();
+					return;
+				}
+				
+				if(pw == null || pw.lengh <1){
+					alert("pw를 입력하지 않으셨습니다");
+					$("input:password").focus();
+					return;
+				}
+				
+				$("form").attr("method", "post").attr("action", "/user/login").attr("target", "_parent").submit();
+			});			 
+		});
+ 
+ 
+	$( function() {
+		//==> 추가된부분 : "addUser"  Event 연결
+		$("img[src='/images/btn_add.gif']").on("click" , function() {
+			self.location = "/user/addUser"
+		});
+	});
+ 
 </script>
 
 </head>
@@ -39,9 +74,9 @@
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 <form name="loginForm"  method="post" action="/login.do" target="_parent">
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////--> 
- <form name="loginForm"  method="post" action="/user/login" target="_parent">
- 
-<div align="center">
+ <form>
+
+<div align="center" >
 
 <TABLE WITH="100%" HEIGHT="100%" BORDER="0" CELLPADDING="0" CELLSPACING="0">
 <TR>
@@ -80,7 +115,7 @@
                 	<img src="/images/text_id.gif" width="100" height="30"/>
                 </td>
                 <td height="30">
-                  <input 	type="text" name="userId"  class="ct_input_g" 
+                  <input 	type="text" name="userId"  id="userId"  class="ct_input_g" 
                   				style="width:180px; height:19px"  maxLength='50'/>          
           		</td>
                 <td width="20" height="30">&nbsp;</td>
@@ -103,21 +138,21 @@
    				    <table width="136" height="20" border="0" cellpadding="0" cellspacing="0">
                        <tr> 
                          <td width="56">
-                         	<a href="javascript:fncLogin();">
+                         	<!-- ////////////////// jQuery Event 처리로 변경됨 /////////////////////////
+							<a href="javascript:fncLogin();">
                          		<img src="/images/btn_login.gif" width="56" height="20" border="0"/>
                          	</a>
+							////////////////////////////////////////////////////////////////////////////////////////////////// -->
+                         		<img src="/images/btn_login.gif" width="56" height="20" border="0"/>
                          </td>
                          <td width="10">&nbsp;</td>
                          <td width="70">
-                         	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                         	<a href="addUserView.jsp;">
+                         	<!-- ////////////////// jQuery Event 처리로 변경됨 /////////////////////////
+							<a href="/user/addUser">
                          		<img src="/images/btn_add.gif" width="70" height="20" border="0">
                          	</a>
-                         	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-                         	<a href="/user/addUser">
-                         		<img src="/images/btn_add.gif" width="70" height="20" border="0">
-                         	</a>
-                         	
+							////////////////////////////////////////////////////////////////////////////////////////////////// -->
+                       			<img src="/images/btn_add.gif" width="70" height="20" border="0">
                          </td>
                        </tr>
                      </table>
@@ -140,4 +175,5 @@
 </form>
 
 </body>
+
 </html>

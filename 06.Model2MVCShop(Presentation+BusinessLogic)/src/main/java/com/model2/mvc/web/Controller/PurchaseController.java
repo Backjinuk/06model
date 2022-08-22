@@ -21,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
+import com.model2.mvc.service.cart.CartService;
+import com.model2.mvc.service.domain.Cart;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.User;
@@ -44,6 +46,10 @@ public class PurchaseController {
 	@Autowired
 	@Qualifier(value =  "userServiceImpl")
 	private UserService userService;
+	
+	@Autowired
+	@Qualifier(value = "cartServiceImpl")
+	private CartService cartService;
 	
 	
 	public PurchaseController() {
@@ -79,10 +85,16 @@ public class PurchaseController {
 	}
 	//@RequestMapping("/addPurchase.do")
 	@RequestMapping(value =  "addCartPurchaseView" , method = RequestMethod.GET)
-	public ModelAndView addCartPurchaseView(@ModelAttribute("prodNo")int[] prodNo,
-											HttpSession session, Model model) {
-		System.out.println("addCartPurchaseView start");
-				
+	public ModelAndView addCartPurchaseView(@RequestParam("prodNo")int[] prodNo,
+											@RequestParam("cartValue")int[] cartValue,
+											 HttpSession session, Model model) throws Exception {
+		
+		System.out.println("addCartPurchaseView start: " + prodNo.length);
+		
+		for (int i = 0; i < prodNo.length; i++) {						
+			cartService.updateCartValue(prodNo[i], cartValue[i]); 
+		}
+		
 		model.addAttribute("prodNo" , prodNo);
 		model.addAttribute("userVO", session.getAttribute("user"));
 		
@@ -93,22 +105,28 @@ public class PurchaseController {
 		return mv;		
 	}
 	//@RequestMapping("/addPurchase.do")
-	@RequestMapping(value = "addpurchase" , method = RequestMethod.GET)
+	@RequestMapping(value = "addpurchase" , method = RequestMethod.POST)
 	public ModelAndView addPurchase(@RequestParam("prodNo")int[] prodNo,
 									HttpSession session, HttpServletRequest requset,
 									@ModelAttribute("purchaseVO")Purchase purchaseVO,
 									Model model) throws Exception {
 	
 		purchaseVO.setBuyer((User)session.getAttribute("user"));
+		purchaseVO.setTranCode("구매완료");
 		
 		for (int i = 0; i < prodNo.length; i++) {			
 			System.out.println("addpurchase start :" + prodNo[i]);
-			purchaseVO.setPurchaseProd(productService.getProduct(prodNo[i])); 
+			purchaseVO.setPurchaseProd(productService.getProduct(prodNo[i]));
 			purchaseService.addPurchase(purchaseVO);
+			productService.updateProductValue(prodNo[i]);
+			
+			cartService.deleteCart(prodNo[i]);
 			System.out.println("purchaseVO: " + purchaseVO);
 		}
 		
 		//purchaseService.updatePurchase(purchaseVO);
+//		//user.getUserId()  
+//	       	purchaseService.addPurchase(purchaseVO);
 		
 		System.out.println("purchaseVO 의 정보 :" + purchaseVO);
 		
@@ -121,37 +139,7 @@ public class PurchaseController {
 		
 		return mv;
 	}
-//	//@RequestMapping("/addCartPurchase.do")
-//	@RequestMapping(value = "addcartPu")
-//	public ModelAndView addCartPurchase(@RequestParam("prodNo") int prodNo,
-//										HttpSession session, HttpServletRequest requset,
-//										@ModelAttribute("purchaseVO")Purchase purchaseVO,
-//										Model model) throws Exception {
-//		
-//		purchaseVO.setPurchaseProd(productService.getProduct(prodNo));
-//		purchaseVO.setBuyer((User)session.getAttribute("user"));
-//		purchaseVO.setDivyAddr(null);
-//		purchaseVO.setDivyDate(null);
-//		purchaseVO.setDivyRequest(null);
-//		purchaseVO.setOrderDate(null);
-//		purchaseVO.setReceiverName(null);
-//		purchaseVO.setReceiverPhone(null);
-//		
-//		purchaseService.addPurchase(purchaseVO);
-//		
-//		//purchaseService.updatePurchase(purchaseVO);
-//		
-//		System.out.println("purchaseVO 의 정보 :" + purchaseVO);
-//		
-//		model.addAttribute("purchaseVO", purchaseVO);
-//		session.setAttribute("buyer", purchaseVO.getBuyer());
-//		
-//		ModelAndView mv = new ModelAndView();
-//		
-//		mv.setViewName("redirect:/getCartList.do");
-//		
-//		return mv;
-//	}
+
 	
 	//@RequestMapping("/getPurchase.do")
 	@RequestMapping(value = "getPurchase" , method = RequestMethod.GET)

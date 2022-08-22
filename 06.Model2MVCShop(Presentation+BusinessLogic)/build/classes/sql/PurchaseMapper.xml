@@ -25,7 +25,7 @@
 	
 	<insert id="addPurchase" parameterType="purchase">
 		INSERT 
-		INTO transaction(TRAN_NO, PROD_NO, BUYER_ID, PAYMENT_OPTION, RECEIVER_NAME, RECEIVER_PHONE, DEMAILADDR,DLVY_REQUEST,ORDER_DATA)
+		INTO transaction(TRAN_NO, PROD_NO, BUYER_ID, PAYMENT_OPTION, RECEIVER_NAME, RECEIVER_PHONE, DEMAILADDR,DLVY_REQUEST,ORDER_DATA,tran_status_code)
 			VALUES(seq_transaction_tran_no.nextval,
 					#{purchaseProd.prodNo:INTEGER},
 					#{buyer.userId:VARCHAR},
@@ -34,7 +34,8 @@
 					#{receiverPhone},
 					#{divyAddr}, 
 					#{divyRequest},
-					SYSDATE)
+					SYSDATE,
+					#{tranCode})
 	</insert>
 	
 	<update id="updateTranCode" parameterType="purchase">
@@ -64,16 +65,14 @@
 			DLVY_REQUEST	=#{divyRequest},
 			ORDER_DATA		= SYSDATE	
 		</set>
-		WHERE tran_no = #{tranNo}
+		WHERE tran_no = #{tranNo} 
 	</update>
-	
-	
 	
 	<sql id="getist">
 		SELECT * 
 		FROM transaction 
 		<if test=" userId != null and userId != '' ">
-			WHERE buyer_id = #{map.buyer.userId}
+			WHERE buyer_id = #{buyer.userId}
 			ORDER BY tran_no
 		</if>
 	</sql>
@@ -92,5 +91,8 @@
 		COUNT(*) 
 		FROM (<include refid="getist"/>) countTable
 	</select>
+	
+
+	
 
 </mapper>

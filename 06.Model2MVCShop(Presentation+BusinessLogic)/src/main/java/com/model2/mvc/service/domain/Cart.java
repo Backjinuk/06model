@@ -7,12 +7,12 @@ public class Cart {
 	private User buyerId;
 	//	P/K
 	private int cartNo;
-	// ?ˆ˜?Ÿ‰
-	private int cartValnum;
-	
+	// ?ˆ˜?Ÿ‰	
 	private String cartCode;
 	
 	private String tranCartCode;
+	
+	private int cartValue;
 	
 	public String getCartCode() {
 		return cartCode;
@@ -40,23 +40,26 @@ public class Cart {
 	public void setCartNo(int cartNo) {
 		this.cartNo = cartNo;
 	}
-	public int getCartValnum() {
-		return cartValnum;
-	}
-	public void setCartValnum(int cartValnum) {
-		this.cartValnum = cartValnum;
-	}
-	@Override
-	public String toString() {
-		return "CartVO [prodNo=" + prodNo + ", buyerId=" + buyerId + ", cartNo=" + cartNo + ", cartValnum=" + cartValnum
-				+ ", cartCode=" + cartCode + "]";
-	}
 	public String getTranCartCode() {
 		return tranCartCode;
 	}
 	public void setTranCartCode(String tranCartCode) {
 		this.tranCartCode = tranCartCode;
 	}
+	
+	public int getCartValue() {
+		return cartValue;
+	}
+	public void setCartValue(int cartValue) {
+		this.cartValue = cartValue;
+	}
+	@Override
+	public String toString() {
+		return "Cart [prodNo=" + prodNo + ", buyerId=" + buyerId + ", cartNo=" + cartNo + ", cartCode=" + cartCode
+				+ ", tranCartCode=" + tranCartCode + ", cartValue=" + cartValue + "]";
+	}
+	
+
 
 
 	

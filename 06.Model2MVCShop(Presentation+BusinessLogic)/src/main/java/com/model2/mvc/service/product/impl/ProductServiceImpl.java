@@ -54,6 +54,10 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public Product getProducts(int[] prodNo) {
 		return productDao.getProducts(prodNo);
+	}
+	@Override
+	public int updateProductValue(int prodNo) throws Exception {
+		return productDao.updateProductValue(prodNo);
 	} 
 
 

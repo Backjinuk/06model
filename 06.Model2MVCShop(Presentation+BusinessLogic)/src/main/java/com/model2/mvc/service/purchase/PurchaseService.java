@@ -20,4 +20,4 @@ public interface PurchaseService {
 	public void updateTranCode(Purchase purchase)throws Exception;
 
 }
- 
+  
