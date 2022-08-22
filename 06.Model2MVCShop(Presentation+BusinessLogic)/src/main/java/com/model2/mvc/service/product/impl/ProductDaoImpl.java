@@ -55,4 +55,9 @@ public class ProductDaoImpl implements ProductDao {
 	public Product getProducts(int[] prodNo) {
 		return sqlSession.selectOne("ProductMapper.getProduct", prodNo);
 	}
+
+	@Override
+	public int updateProductValue(int prodNo) throws Exception {
+		return sqlSession.update("ProductMapper.updateProductValue", prodNo);
+	}
 }

@@ -8,13 +8,30 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 
 	// 검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
-	function fncGetUserList(currentPage) {
-		document.getElementById("currentPage").value = currentPage;
-	   	document.detailForm.submit();		
+	function fncGetList(currentPage) {
+		//document.getElementById("currentPage").value = currentPage;
+	   	$("#currentPage").val(currentPage);
+	   	//document.detailForm.submit();
+	   	$("form").attr("method", "post").attr("action", "/user/listUser").subimt();
+	   	
 	}
+	
+	$(function() {
+		$("td.ct_btn01:contains('검색')").bind("click", function() {
+			fncGetList(1);
+		});
+		
+		$(".ct_list_pop td:nth-child(3)").css("color","red").bind("click", function() {
+			self.location="/user/getUser?userId="+$(this).text().trim();
+		});
+		$("h7").css("color", "red");
+		
+		$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
+	});
 
 </script>
 
@@ -27,7 +44,7 @@
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 <form name="detailForm" action="/listUser.do" method="post">
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-<form name="detailForm" action="/user/listUser" method="post">
+<form name="detailForm">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -55,7 +72,7 @@
 				<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>회원명</option>
 			</select>
 			<input type="text" name="searchKeyword" 
-						value="${! empty search.searchKeyword ? search.searchKeyword : ""}"  
+						value="${! empty search.searchKeyword ? search.searchKeyword : }"  
 						class="ct_input_g" style="width:200px; height:20px" > 
 		</td>
 		<td align="right" width="70">
@@ -81,7 +98,9 @@
 	<tr>
 		<td class="ct_list_b" width="100">No</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">회원ID</td>
+		<td class="ct_list_b" width="150">
+		회원ID</td>
+		<h7 >(id click:상세정보)</h7>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width="150">회원명</td>
 		<td class="ct_line02"></td>
@@ -97,11 +116,7 @@
 		<tr class="ct_list_pop">
 			<td align="center">${ i }</td>
 			<td></td>
-			<td align="left">
-				<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				<a href="/getUser.do?userId=${user.userId}">${user.userId}</a></td>
-               	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-			<a href="/user/getUser?userId=${user.userId}">${user.userId}</a></td>
+			<td align="left">${user.userId}</td>
 			<td></td>
 			<td align="left">${user.userName}</td>
 			<td></td>
@@ -118,8 +133,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top:10px;">
 	<tr>
 		<td align="center">
-		   <input type="hidden" id="currentPage" name="currentPage" value=""/>
-	
+		   <input type="hidden" id="currentPage" name="currentPage" value=""/>	
 			<jsp:include page="../common/pageNavigator.jsp"/>	
 			
     	</td>

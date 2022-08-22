@@ -63,7 +63,18 @@ public class CartDaoImpl implements CartDao {
 	}
 
 	@Override
-	public void deleteCart(int cartNo) throws Exception {
-		sqlSession.delete("CartMapper.deleteCart", cartNo);
+	public void deleteCart(int prodNo) throws Exception {
+		sqlSession.delete("CartMapper.deleteCart", prodNo);
+	}
+
+	@Override
+	public int updateCartValue(int prodNo, int cartValue)throws Exception {
+		Map<String, Integer> map = 
+				new HashMap<String, Integer>(); 
+		 
+		map.put("prodNo", prodNo);
+		map.put("cartValue",cartValue);		
+		return sqlSession.update("CartMapper.updateCartValue", map);
+		
 	}
 }

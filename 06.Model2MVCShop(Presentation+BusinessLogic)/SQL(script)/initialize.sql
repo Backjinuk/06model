@@ -7,17 +7,18 @@ DROP SEQUENCE seq_product_prod_no;
 DROP SEQUENCE seq_transaction_tran_no;
 
 
-CREATE SEQUENCE seq_product_prod_no		 	INCREMENT BY 1 START WITH 10000;
+CREATE SEQUENCE seq_product_prod_no	 	INCREMENT BY 1 START WITH 10000;
 CREATE SEQUENCE seq_transaction_tran_no	INCREMENT BY 1 START WITH 10000;
+CREATE SEQUENCE seq_cart_tran_no	INCREMENT BY 1 START WITH 10000;
 
 
 CREATE TABLE users ( 
-	user_id 			VARCHAR2(20)	NOT NULL,
-	user_name 	VARCHAR2(50)	NOT NULL,
-	password 		VARCHAR2(10)	NOT NULL,
-	role 					VARCHAR2(5) 		DEFAULT 'user',
+	user_id 			VARCHAR2(20)		NOT NULL,
+	user_name 	VARCHAR2(50)		NOT NULL,
+	password 		VARCHAR2(10)		NOT NULL,
+	role 				VARCHAR2(5) 		DEFAULT 'user',
 	ssn 					VARCHAR2(13),
-	cell_phone 		VARCHAR2(14),
+	cell_phone	VARCHAR2(14),
 	addr 				VARCHAR2(100),
 	email 				VARCHAR2(50),
 	reg_date 		DATE,
@@ -26,10 +27,10 @@ CREATE TABLE users (
 
 
 CREATE TABLE product ( 
-	prod_no 						NUMBER 				NOT NULL,
+	prod_no 					NUMBER 				NOT NULL,
 	prod_name 				VARCHAR2(100) 	NOT NULL,
 	prod_detail 				VARCHAR2(200),
-	manufacture_day		VARCHAR2(8),
+	manufacture_day	VARCHAR2(8),
 	price 							NUMBER(10),
 	image_file 					VARCHAR2(100),
 	reg_date 					DATE,
@@ -37,18 +38,33 @@ CREATE TABLE product (
 );
 
 CREATE TABLE transaction ( 
-	tran_no 					NUMBER 			NOT NULL,
+	tran_no 						NUMBER 			NOT NULL,
 	prod_no 					NUMBER(16)		NOT NULL REFERENCES product(prod_no),
-	buyer_id 				VARCHAR2(20)	NOT NULL REFERENCES users(user_id),
+	buyer_id 					VARCHAR2(20)	NOT NULL REFERENCES users(user_id),
 	payment_option		CHAR(3),
 	receiver_name 		VARCHAR2(20),
 	receiver_phone		VARCHAR2(14),
-	demailaddr 			VARCHAR2(100),
+	demailaddr 				VARCHAR2(100),
 	dlvy_request 			VARCHAR2(100),
 	tran_status_code	CHAR(3),
-	order_data 			DATE,
+	order_data 				DATE,
 	dlvy_date 				DATE,
 	PRIMARY KEY(tran_no)
+);
+
+create table carts(
+    prod_no 				NUMBER(16)		NOT NULL REFERENCES product(prod_no),
+	buyer_id 				VARCHAR2(20)	NOT NULL REFERENCES users(user_id),
+    cart_no number, 
+    cart_valnum NUMBER(20),
+    PRIMARY key(cart_no)
+);
+
+CREATE TABLE coment (
+    coment_no  		NUMBER(20)  PRIMARY KEY,
+    prod_no    	 	NUMBER(20) NOT NULL REFERENCES product(prod_no),
+    user_id    	 	VARCHAR2(20) NOT NULL REFERENCES users(user_id),   
+    coment_title 	VARCHAR2(100)
 );
 
 
@@ -116,6 +132,18 @@ VALUES ( 'user18', 'SCOTT', '1818', 'user', NULL, NULL, NULL, NULL, sysdate);
 
 INSERT INTO users 
 VALUES ( 'user19', 'SCOTT', '1919', 'user', NULL, NULL, NULL, NULL, sysdate);
+
+INSERT INTO users 
+VALUES ( 'user20', 'SCOTT', '2020', 'user', NULL, NULL, NULL, NULL, sysdate);
+
+INSERT INTO users 
+VALUES ( 'user21', 'SCOTT', '2121', 'user', NULL, NULL, NULL, NULL, sysdate);
+
+INSERT INTO users 
+VALUES ( 'user22', 'SCOTT', '2222', 'user', NULL, NULL, NULL, NULL, sysdate);
+
+INSERT INTO users 
+VALUES ( 'user23', 'SCOTT', '2323', 'user', NULL, NULL, NULL, NULL, sysdate);
            
            
 insert into product values (seq_product_prod_no.nextval,'vaio vgn FS70B','소니 바이오 노트북 신동품','20120514',2000000, 'AHlbAAAAtBqyWAAA.jpg',to_date('2012/12/14 11:27:27', 'YYYY/MM/DD HH24:MI:SS'));
@@ -129,33 +157,3 @@ insert into product values (seq_product_prod_no.nextval,'삼성센스','노트북','201
 
 
 commit;
-
-
-
-//== Page 처리을 위한 SQL 구성연습
-
-SELECT user_id , user_name , email
-FROM users
-ORDER BY user_id
-
-currentPage =2
-pageSize = 3   
-4 ~ 6
-
-SELECT inner_table. * ,  ROWNUM AS row_seq
-FROM (	SELECT user_id , user_name , email
-				FROM users
-				ORDER BY user_id ) inner_table
-WHERE ROWNUM <=6;	
-//==>           currentPage * paseSize
-
-
-SELECT * 
-FROM (	SELECT inner_table. * ,  ROWNUM AS row_seq
-				FROM (	SELECT user_id , user_name , email
-								FROM users
-								ORDER BY user_id ) inner_table
-				WHERE ROWNUM <=6 )
-WHERE row_seq BETWEEN 4 AND 6;
-
-//==> (currentPage-1) * paseSize+1           currentPage * paseSize

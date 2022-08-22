@@ -55,7 +55,7 @@ public class CartController {
 	
 	
 	//@RequestMapping("/addCartView.do")
-	@RequestMapping(value = "addcartView" , method = RequestMethod.GET)
+	@RequestMapping(value = "addCartView" , method = RequestMethod.GET)
 	public String addCartView(@RequestParam("prodNo")int prodNo,
 							@ModelAttribute("product")Product product,
 							HttpSession session,HttpServletRequest request,
@@ -91,22 +91,24 @@ public class CartController {
 		cart.setProdNo(product);
 		cart.setBuyerId(userService.getUser(user.getUserId()));
 		cart.setCartCode("y");
-		
+		cart.setCartValue(product.getProductValNum()); 
 		cartService.addCart(cart);
 		
-		System.out.println("cart의 정보" + cart);
+		System.out.println("product.getProductValNum()의 정보: " + product.getProductValNum());
 		
-		return "redirect:/getCartList.do";
+		System.out.println("cartadd의 정보" + cart);
+		
+		return "redirect:/cart/getCartList";
 	}
 	//@RequestMapping("/deleteCart.do")
-	@RequestMapping(value = "deleteCart" , method = RequestMethod.POST)
+	@RequestMapping(value = "deleteCart" , method = RequestMethod.GET)
 	public String deleteCart(@RequestParam("cartNo") int cartNo) throws Exception {
 		
 		System.out.println("deleteCart start");
 		
 		cartService.deleteCart(cartNo);
 		
-		return "redirect:/getCartList.do";
+		return "redirect:/cart/getCartList";
 	}
 	//@RequestMapping("/getCartList.do")
 	@RequestMapping(value = "getCartList")

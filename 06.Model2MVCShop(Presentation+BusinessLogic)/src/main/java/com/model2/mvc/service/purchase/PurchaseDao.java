@@ -21,3 +21,4 @@ public interface PurchaseDao {
 	void updateTranCode(Purchase purchase) throws Exception;
 
 }
+ 

@@ -14,7 +14,10 @@ public class Product {
 	private Date regDate;
 	// 諛곗넚 �긽�깭
 	private String proTranCode = "판매중";
-	
+	// 총 수량
+	private int productValue;
+	//구매할 수량
+	private int productValNum;
 	public Product(){
 	}
 	
@@ -66,11 +69,31 @@ public class Product {
 	public void setRegDate(Date  date) {
 		this.regDate = date;
 	}
+	
+
+	public int getProductValNum() {
+		return productValNum;
+	}
+
+	public void setProductValNum(int productValNum) {
+		this.productValNum = productValNum;
+	}
+
+	public int getProductValue() {
+		return productValue;
+	}
+
+	public void setProductValue(int productValue) {
+		this.productValue = productValue;
+	}
 
 	@Override
 	public String toString() {
-		return "ProductVO [prodNo=" + prodNo + ", fileName=" + fileName + ", manuDate=" + manuDate + ", price=" + price
+		return "Product [prodNo=" + prodNo + ", fileName=" + fileName + ", manuDate=" + manuDate + ", price=" + price
 				+ ", prodDetail=" + prodDetail + ", prodName=" + prodName + ", regDate=" + regDate + ", proTranCode="
-				+ proTranCode + "]";
-	}	
+				+ proTranCode + ", productValue=" + productValue + ", productValNum=" + productValNum + "]";
+	}
+
+	
+	
 }

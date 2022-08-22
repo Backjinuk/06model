@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Cart;
+import com.model2.mvc.service.domain.Product;
 
 public interface CartService {
 
@@ -14,5 +15,8 @@ public interface CartService {
 	
 	public Map<String, Object> getCartList(Search search, String userId) throws Exception; 
 	
-	public void deleteCart(int cartNo) throws Exception;
+	public void deleteCart(int prodNo) throws Exception;
+	
+	public int updateCartValue(int prodNo, int cartValue)throws Exception;
 }
+ 

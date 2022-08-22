@@ -11,6 +11,7 @@ import com.model2.mvc.common.Search;
 import com.model2.mvc.service.cart.CartDao;
 import com.model2.mvc.service.cart.CartService;
 import com.model2.mvc.service.domain.Cart;
+import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.User;
 
 @Service("cartServiceImpl")
@@ -37,8 +38,13 @@ public class CartServiceImpl implements CartService {
 
 
 	@Override
-	public void deleteCart(int cartNo) throws Exception {
-		cartDao.deleteCart(cartNo);
+	public void deleteCart(int prodNo) throws Exception {
+		cartDao.deleteCart(prodNo);
+	}
+
+	@Override
+	public int updateCartValue(int prodNo, int cartValue) throws Exception {
+		return cartDao.updateCartValue(prodNo, cartValue);
 	}
 
 }

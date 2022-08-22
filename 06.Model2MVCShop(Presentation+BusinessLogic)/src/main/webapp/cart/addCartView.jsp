@@ -7,13 +7,18 @@
 <head>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		
+	})
+</script>
 <title>Insert title here</title>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form  method="post" action="/addCart.do">
+<form  method="post" action="/cart/addCart">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -122,6 +127,12 @@
 		<td class="ct_write01">
 		<input type="text" name="manuDate" value="${product.regDate }"/>
 		</td>
+	</tr>
+	<tr>
+		<td width="104" class="ct_write">¼ö·®</td>
+		<td bgcolor="D6D6D6" width="1"></td>
+		<td class="ct_write01">
+		<input type="text" name="productValNum" value="${product.productValNum + 1 }"></td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>

@@ -7,34 +7,124 @@
 <title>장바구니 목록조회</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
-	
 	function fncGetList(currentPage) {
-		document.getElementById("currentPage").value = currentPage;
-		document.detailForm.submit();
+		//document.getElementById("currentPage").value = currentPage;
+		$("#currentPage").val(currentPage);
+		//document.detailForm.submit();
+		$("form").attr("acton", "/cart/getCartList").attr("method" , "post").submit;
 	}
 	
-	function cartList() {		
-		alert("실행");		
+/* 	function count(type, i) {		
+		//alert("type: " + i);
+		
+		var product = document.getElementById("productValue").value;
+		//alert("product: " + product);
+		var resultElement = document.getElementById("result"+i);
+		
+		var chk_value = document.getElementById("cartValue"+i);
+		
+		var number = resultElement.innerText;
+		//alert("resultElement : " +  parseInt(number));
+		
+		if(type == "plus" && parseInt(number) < parseInt(product)){
+			number = parseInt(number) +1;
+		}else if( type == "minus" && number > 0) { 
+			number = parseInt(number) -1;			
+		}else{
+			alert("그만해~~~");
+		}		
+		resultElement.innerText = number;
+		chk_value.value = number; 
+	}  */
+	
+	$( function() {
+		
+		$(".bnt01").on("click", function() {
+			
+			var product =$(this).parents(".ct_list_pop").find("#productValue").val();
+			
+			var result = $(this).parents(".ct_list_pop").find("#result");
+			
+			var number = result.text().trim();
+			
+				
+			
+			if( $(this).val() == '+' && parseInt(number) < parseInt(product)){
+				number = parseInt(number) + 1;
+				console.log(number);
+			}else if( $(this).val() == '-' && number > 0){
+				number = parseInt(number) -1;
+				console.log(number);
+			}
+			
+			result.text(number); 
+			
+		});
+		
+		$("input[name='purchase']").on("click", function(){
+			alert("구매창으로 이동합니다");
+			var result = $("#result");			
+			var chk_arr = $("input[type='checkbox']");
+			
+			var chk_data = [];
+			var chk_valueData = [];
+			
+			$.each(chk_arr, function(index, item){
+				if( $( chk_arr[index] ).is(":checked") == true ) {					
+			    	chk_data.push(item.value );
+			    	chk_valueData.push( $( $("tr.ct_list_pop").find("#result")[index]).text() );
+			    
+			    }  
+			})
+			
+			console.log(chk_data);
+	    	console.log(chk_valueData);
+	    	self.location =  '/purchase/addCartPurchaseView?prodNo='+chk_data+'&cartValue='+chk_valueData;
+			
+		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+	});
+	
+	
+	 
+/* 	function cartList(i) {
+		alert("실행");			
 		
 		var chk_arr = document.getElementsByName("chekList");
 		
+		var chk_value = document.getElementsByName("cartValue");
+		
 		var chk_data = [];
-
+		var chk_valueData = [];
+		
 		for( var i=0; i<chk_arr.length; i++ ) {
-		    if( chk_arr[i].checked == true ) {
-		        chk_data.push(chk_arr[i].value);
-		    
-		    } 
- 	 	  
+		    if( chk_arr[i].checked == true ) {		    	
+		        chk_data.push(parseInt(chk_arr[i].value));
+		      
+		   		chk_valueData.push(parseInt(chk_value[i].value));		   		
+		    }  
 		   
-		} 
-		alert(chk_data)  
-		location.href = "/purchase/addCartPurchaseView?prodNo="+chk_data;
+		}		
+
+		alert(chk_valueData);
+		alert(chk_data);
+		
+		location.href = '/purchase/addCartPurchaseView?prodNo='+chk_data+'&cartValue='+chk_valueData;
 	
 		
-	}
+	} */ 
 
 
 </script>
@@ -48,7 +138,7 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/cart/getCartList" method="post">
+<form>
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -77,6 +167,8 @@
 		<td class="ct_list_b">상품명</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">수량</td>
+		<td class="ct_line02"></td>
+		<td class="ct_list_b"></td>
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
@@ -84,27 +176,49 @@
 	<c:set  var="i" value="0"/>
 	<c:forEach var="cart" items="${list }">
 		<c:set var="i" value="${i+1 }"/>
-			<tr class="ct_list_pop">
-		<td align="center">${cart.cartNo}</td>
+	<tr class="ct_list_pop">
+		<td class="product" align="center">
+			${cart.cartNo}
+		
+			<input type="hidden" name="cartNo" id="cartNo" value="${cart.cartNo}">
+		
+			<input type="hidden" id="productValue" value="${cart.prodNo.productValue }">
+		
+		</td>
 		<td></td>
 		<td align="left">${cart.buyerId.userId}</td>
 		<td></td>
 		<td align="left">
-			<a href="/product/getProduct?prodNo=${cart.prodNo.prodNo}">${cart.prodNo.prodName}</a>			
+			<a href="/product/getProduct?prodNo=${cart.prodNo.prodNo}">${cart.prodNo.prodName}</a>			 
+		</td>
+		<td></td>
+		<td class="cart" align="left">
+			<div id="result">${cart.cartValue }</div>
+			<input id="cartValue" type="hidden" name="cartValue" value="${cart.cartValue }">			
+			
+			<input type="button" class="bnt01" name="plus" value="+">
+			<input type="button" class="bnt01" name="minus" value="-">
+		
 		</td>			
 		<td></td>
 		<td align="left">
-		<input type="checkbox" value="${cart.prodNo.prodNo }" name="chekList" />
+			<input type="checkbox" value="${cart.prodNo.prodNo }" name="chekList" />
 			<input type="button" 
-				onclick="location.href='/deleteCart.do?cartNo=${cart.cartNo }'"  value="삭제"/></td>
+				onclick="location.href='/cart/deleteCart?cartNo=${cart.cartNo}'" value="삭제"/>
+			<input type="button" 
+					onclick="location.href='/purchase/addCartPurchaseView?prodNo=${cart.prodNo.prodNo}&cartValue=${cart.cartValue }'"  value="구매" />
+		</td>
 		<td></td>
 	</tr>
+		
 	<tr>
 		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
 	</tr>
 	</c:forEach>
-</table>	
-<input type="button" onclick="cartList();"  value="구매" style="float: right ;"/>
+</table>
+
+<input type="button" name="purchase" value="전체구매" style="float: right ;"/>	
+
 
 
 

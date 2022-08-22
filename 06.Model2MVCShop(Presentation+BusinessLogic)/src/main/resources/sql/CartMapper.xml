@@ -7,12 +7,12 @@
 <mapper namespace="CartMapper">
 	
 	<resultMap type="cart" id="cartresultMap">
-		<result property="prodNo.prodNo" 	column="PROD_NO" 		jdbcType="INTEGER"/>
-		<result property="buyerId.userId" 	column="BUYER_ID" 		jdbcType="VARCHAR"/>
-		<result property="cartNo" 			column="CART_NO"  		jdbcType="INTEGER"/>
-		<result property="cartValnum" 		column="CART_VALNUM" 	jdbcType="INTEGER"/>
-		<result property="cartCode" 		column="CARTCODE" 		jdbcType="VARCHAR"/>
-		<result property="tranCartCode"     column="tc"  			jdbcType="VARCHAR"/>
+		<result property="prodNo.prodNo" 			column="PROD_NO" 		jdbcType="INTEGER"/>
+		<result property="buyerId.userId" 			column="BUYER_ID" 		jdbcType="VARCHAR"/>
+		<result property="cartNo" 					column="CART_NO"  		jdbcType="INTEGER"/>
+		<result property="tranCartCode"   	  		column="tc"  			jdbcType="VARCHAR"/>
+		<result property="cartCode" 				column="cart_code" 		jdbcType="VARCHAR"/>
+		<result property="cartValue" 				column="CART_VALNUM" 	jdbcType="INTEGER"/>
 	</resultMap>
 	
 	
@@ -22,17 +22,18 @@
 			select seq_cart_tran_no.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT 
-		INTO carts(cart_no, prod_no, buyer_id, cartCode)
+		INTO carts(cart_no, prod_no, buyer_id,CART_VALNUM,cart_code)
 		VALUES(	#{cartNo},
 				#{prodNo.prodNo:INTEGER},
 				#{buyerId.userId:VARCHAR},
+				#{cartValue},
 				#{cartCode})	
 	</insert>
 	
-	<delete id="deleteCart" parameterType="cart">
+	<delete id="deleteCart" parameterType="int">
 		DELETE
 		carts
-		WHERE cart_no = #{cartNo}
+		WHERE prod_no = #{prodNo}
 	</delete>
 	
  <sql id="getCart">
@@ -58,5 +59,13 @@
 		COUNT(*) 
 		FROM (<include refid="getCart"/>) count
 	</select> 
+	
+	<update id="updateCartValue" parameterType="map">
+	UPDATE carts
+	<set>
+		CART_VALNUM = #{cartValue:INTEGER}
+	</set>
+		WHERE PROD_NO = #{prodNo:INTEGER}
+	</update>
 	
 </mapper> 

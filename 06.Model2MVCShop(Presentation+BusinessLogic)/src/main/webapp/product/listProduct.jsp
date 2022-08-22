@@ -6,13 +6,21 @@
 <title>상품 목록조회</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-
+<script src="http://code.jquery.com/juqery-2.1.4.min.js"></script>
 <script type="text/javascript">
 
 	function fncGetList(currentPage) {
-		document.getElementById("currentPage").value = currentPage;
-		document.detailForm.submit();
+		//document.getElementById("currentPage").value = currentPage;
+		$("#currentPage").val(currentPage);
+		//document.detailForm.submit();
+		$("form").attr("action", "/product/listProduct").attr("method", "post").submit();
 	}
+	
+	$(function() {
+		
+	})
+	
+	
 
 </script>
 </head>
@@ -21,7 +29,7 @@
 
 	<div style="width: 98%; margin-left: 10px;"> 
 
-		<form name="detailForm" method="post" action="/listProduct.do">
+		<form name="detailForm" method="post" action="/product/listProduct">
 
 			<table width="100%" height="37" border="0" cellpadding="0"
 				cellspacing="0">
@@ -72,7 +80,7 @@
 					</td>				
 				</tr>
 				<tr>
-					<td style="float: right; margin-top: 20px; ">
+				<td style="float: right; margin-top: 20px; ">
 				<select name="searchPrice"	class="ct_input_g" style="width: 80px">	
 						<option selected disabled="disabled">선택하세요</option>
 						<option value="3" ${! empty  searchVO.searchPrice && searchVO.searchPrice == "3" ? "selected" 	: "" }>가격이 높은순</option>
@@ -80,7 +88,7 @@
 				</select>
 						<input type="text" name="startPrice" value="${searchVO.startPrice}">~
 						<input type="text" name="endPrice" value="${searchVO.endPrice}">
-						<a href="javascript:fncGetList('2');">검색</a>
+						<a href="javascript:fncGetList('1');" class="Search_btn">검색</a>
 					</td>
 				</tr>
 			</table>
@@ -91,6 +99,7 @@
 					<td colspan="11">
 					전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage } 페이지</td>
 				</tr>
+				
 				<tr>
 					<td class="ct_list_b" width="100">No</td>
 					<td class="ct_line02"></td>
@@ -101,56 +110,60 @@
 					<td class="ct_list_b">등록일</td>
 					<td class="ct_line02"></td>
 					<td class="ct_list_b">현재상태</td>
+					<td class="ct_line02"></td>
+					<td class="ct_list_b">수량</td>
 				</tr>
 				<tr>
 					<td colspan="11" bgcolor="808285" height="1"></td>
 				</tr>
-				<c:set var="i" value="0"/>
-				<c:forEach var="productVO" items="${list }">
-					<c:set var="i" value="${i+1 }"/>
-						<tr class="ct_list_pop">
-					<td align="center">${i }</td>
-					<td></td>
-					<td align="left">
-						<a href="/product/getProduct?prodNo=${productVO.prodNo }">${productVO.prodName }</a></td>					
-					<td></td>
-					<td align="left">${productVO.price }</td>
-					<td></td>
-					<td align="left">${productVO.regDate }</td>
-					<td></td>
-					<td align="left">
-					<c:choose>
-						<c:when test="${userVO.userId eq 'admin' }">
-							<c:choose>						
-									<c:when test="${ productVO.proTranCode eq 'null'  }">
-										판매중						
-									</c:when>								
-								<c:when test="${! empty productVO.proTranCode && productVO.proTranCode eq '구매완료' }">
-									<a href="/purchase/updateTranCodeByProd?prodNo=${productVO.prodNo }&tranCode=${purchaseVO.tranCode}">
-											배송하기 </a> 	
+					<c:set var="i" value="0"/>
+						<c:forEach var="productVO" items="${list }">
+							<c:set var="i" value="${i+1 }"/>
+								<tr class="ct_list_pop">
+						 <c:if test="${! empty productVO.productValue || productVO.productValue eq '0'}"> 
+							<td align="center">${i }</td>
+							<td></td>
+							<td align="left">
+								<a href="/product/getProduct?prodNo=${productVO.prodNo }">${productVO.prodName }</a></td>					
+							<td></td>
+							<td align="left">${productVO.price }</td>
+							<td></td>
+							<td align="left">${productVO.regDate }</td>
+							<td></td>
+							<td align="left">
+							<c:choose>
+								<c:when test="${userVO.userId eq 'admin' }">
+									<c:choose>						
+											<c:when test="${ productVO.proTranCode eq 'null'  }">
+												판매중						
+											</c:when>								
+										<c:when test="${! empty productVO.proTranCode && productVO.proTranCode eq '구매완료' }">
+											<a href="/purchase/updateTranCodeByProd?prodNo=${productVO.prodNo }&tranCode=${purchaseVO.tranCode}">
+													배송하기 </a> 	
+										</c:when>
+										<c:otherwise>							
+												${productVO.proTranCode }						
+										</c:otherwise>	
+									</c:choose>																			
 								</c:when>
-								<c:otherwise>							
-										${productVO.proTranCode }						
-								</c:otherwise>	
-							</c:choose>																			
-						</c:when>
-							<c:when test="${! empty productVO.proTranCode }">
-									${productVO.proTranCode }
-							</c:when>
-							<c:otherwise>
-									판매중
-							</c:otherwise>
-					</c:choose>						
-					</td>					
+									<c:when test="${! empty productVO.proTranCode }">
+											${productVO.proTranCode }
+									</c:when>
+									<c:otherwise>
+											판매중
+									</c:otherwise>
+							</c:choose>						
+						</td>					
+					<td></td>
+				<td align="left">${productVO.productValue }</td>
+				</c:if>
 				</tr>
 				<tr>
 					<td colspan="11" bgcolor="D6D7D6" height="1"></td>
 				</tr>
 				</c:forEach>
-			</table>	
-					
 				
-			
+			</table>		
 		
 			<table width="100%" border="0" cellspacing="0" cellpadding="0"
 				style="margin-top: 10px;">

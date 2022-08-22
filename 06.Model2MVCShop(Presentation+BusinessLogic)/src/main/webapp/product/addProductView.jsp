@@ -1,66 +1,34 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
-<%@ page import="com.model2.mvc.service.domain.Product"  %>
-<%@ page import="com.model2.mvc.service.domain.User" %> 
-<%@ page import="com.model2.mvc.service.domain.Purchase" %>
+<%@ page pageEncoding="EUC-KR"%>
+
+
 <html>
 <head>
-<title>회원가입</title>
+<title>상품등록</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
 
-<!-- <script type="text/javascript">
-function fncAddUser() {
-	// Form 유효성 검증
-	var id=document.detailForm.userId.value;
-	var pw=document.detailForm.password.value;
-	var pw_confirm=document.detailForm.password2.value;
-	var name=document.detailForm.userName.value;
-	
-	if(id == null || id.length <1){
-		alert("아이디는 반드시 입력하셔야 합니다.");
-		return;
-	}
-	if(pw == null || pw.length <1){
-		alert("패스워드는  반드시 입력하셔야 합니다.");
-		return;
-	}
-	if(pw_confirm == null || pw_confirm.length <1){
-		alert("패스워드 확인은  반드시 입력하셔야 합니다.");
-		return;
-	}
-	if(name == null || name.length <1){
-		alert("이름은  반드시 입력하셔야 합니다.");
-		return;
-	}
-	
-	if(document.detailForm.password.value != document.detailForm.password2.value) {
-		alert("비밀번호 확인이 일치하지 않습니다.");
-		document.detailForm.password2.focus();
-		return;
-	}
+	$(function() {		
 		
-	if(document.detailForm.phone2.value != "" && document.detailForm.phone2.value != "") {
-		document.detailForm.phone.value = document.detailForm.phone1.value + "-" + document.detailForm.phone2.value + "-" + document.detailForm.phone3.value;
-	} else {
-		document.detailForm.phone.value = "";
-	}
+		$(".ct_btn01:contains('등록')	").on("click", function() {			
+			//$.post("/product/addProduct").submit();			
+			alert("등록합니다");
+			$("from").attr("action", "/product/addProduct").attr("method", "POST").submit();
+		});
 		
-	document.detailForm.action='/addProduct.do';
-	document.detailForm.submit();
-}
+		$(".ct_btn01:contains('취소')").on("click", function() {
+			history.go(-1);
+		})
+	})
+</script>
 
-
-function resetData() {
-	document.detailForm.reset();
-}
-
-</script> -->
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
 <!-- 유효성 chek -->
-<form name="detailForm"  method="post" action="/product/addProduct">
-
+<form>
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
 		<td width="15" height="37">
@@ -169,7 +137,7 @@ function resetData() {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<input type="submit" value="등록">
+					등록
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -179,22 +147,17 @@ function resetData() {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:resetData();">취소</a>
+						취소
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
 					</td>
 				</tr>
 			</table>
-		</td>
-	</tr>
 </table>
 
 </form>
 
-<script type="text/javascript">
-document.getElementById("btnCmfID").focus();
-</script>
 
 </body>
 </html>
