@@ -10,7 +10,9 @@ DROP SEQUENCE seq_transaction_tran_no;
 CREATE SEQUENCE seq_product_prod_no	 	INCREMENT BY 1 START WITH 10000;
 CREATE SEQUENCE seq_transaction_tran_no	INCREMENT BY 1 START WITH 10000;
 CREATE SEQUENCE seq_cart_tran_no	INCREMENT BY 1 START WITH 10000;
-
+CREATE SEQUENCE seq_coment_tran_no	INCREMENT BY 1 START WITH 1;
+CREATE SEQUENCE seq_recomment_tran_no	INCREMENT BY 1 START WITH 1;
+CREATE SEQUENCE seq_clicklike_like_no	INCREMENT BY 1 START WITH 1;
 
 CREATE TABLE users ( 
 	user_id 			VARCHAR2(20)		NOT NULL,
@@ -64,8 +66,32 @@ CREATE TABLE coment (
     coment_no  		NUMBER(20)  PRIMARY KEY,
     prod_no    	 	NUMBER(20) NOT NULL REFERENCES product(prod_no),
     user_id    	 	VARCHAR2(20) NOT NULL REFERENCES users(user_id),   
-    coment_title 	VARCHAR2(100)
+    coment_title 	VARCHAR2(500)
 );
+
+create table recomment(
+    recomment_no     NUMBER(20) primary key,
+    user_id          VARCHAR(20) NOT NULL REFERENCES users(user_id),
+    commet_no        NUMBER(20) NOT NULL REFERENCES coment(coment_no),
+    recomment_title  VARCHAR(500)
+);
+
+create table clicklike(
+    like_no number(30) PRIMARY KEY,
+    prod_no NUMBER(20) REFERENCES product(prod_no),
+    user_id VARCHAR(20) REFERENCES users(user_id),
+    like_count NUMBER(30),
+    like_check VARCHAR(10) DEFAULT 'N'
+);
+
+
+create table reviews(
+            review_no       number(30)  PRIMARY KEY,
+            prod_no         number(20)  REFERENCES product(prod_no),
+            user_id         VARCHAR(20) REFERENCES users(user_id),
+            review_count    NUMBER(20),
+            review_title    VARCHAR(100) 
+ );
 
 
 INSERT 

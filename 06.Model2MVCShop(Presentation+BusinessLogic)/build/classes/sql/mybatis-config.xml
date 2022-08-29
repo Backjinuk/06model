@@ -14,11 +14,13 @@
 	
 	<!-- FQCN(Full Qualified Class Name) Alias(별칭관리) -->
 	<typeAliases>
-		<typeAlias alias="user" type="com.model2.mvc.service.domain.User" />
-		<typeAlias alias="product" type="com.model2.mvc.service.domain.Product"/>
+		<typeAlias alias="user" 	type="com.model2.mvc.service.domain.User" />
+		<typeAlias alias="product" 	type="com.model2.mvc.service.domain.Product"/>
 		<typeAlias alias="purchase" type="com.model2.mvc.service.domain.Purchase"/>
-		<typeAlias alias="cart" type="com.model2.mvc.service.domain.Cart"/>
-		<typeAlias alias="search" type="com.model2.mvc.common.Search" />
+		<typeAlias alias="cart" 	type="com.model2.mvc.service.domain.Cart"/>
+		<typeAlias alias="comment" 	type="com.model2.mvc.service.domain.Comment" />
+		<typeAlias alias="recomment" 	type="com.model2.mvc.service.domain.ReComment" />
+		<typeAlias alias="search" 	type="com.model2.mvc.common.Search" />
 	</typeAliases>
 	
 	 <!-- SQL Definition :: file include -->
@@ -27,6 +29,8 @@
 		<mapper resource="sql/ProductMapper.xml"/>
 		<mapper resource="sql/PurchaseMapper.xml"/>
 		<mapper resource="sql/CartMapper.xml"/> 
+		<mapper resource="sql/CommentMapper.xml"/> 
+		<mapper resource="sql/ReCommentMapper.xml"/> 
 	</mappers>
 
 </configuration>

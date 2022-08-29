@@ -6,7 +6,7 @@
 <title>상품 목록조회</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-<script src="http://code.jquery.com/juqery-2.1.4.min.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 
 	function fncGetList(currentPage) {
@@ -17,10 +17,18 @@
 	}
 	
 	$(function() {
+		$(".Search_btn01").on("click", function() {
+			fncGetList(1);
+		})
 		
+		$(".Search_btn02").on("click", function() {
+			fncGetList(1);
+		})
 	})
 	
-	
+	$(".ct_list_pop.purchase").find("intpu[name='purchaseuUpdate]").on("click", function() {
+		$(this).parent().parent().find("intpu[name='purchaseuUpdate]")
+	})
 
 </script>
 </head>
@@ -29,7 +37,7 @@
 
 	<div style="width: 98%; margin-left: 10px;"> 
 
-		<form name="detailForm" method="post" action="/product/listProduct">
+		<form>
 
 			<table width="100%" height="37" border="0" cellpadding="0"
 				cellspacing="0">
@@ -71,8 +79,8 @@
 								<td width="17" height="23"><img
 									src="/images/ct_btnbg01.gif" width="17" height="23"></td>
 								<td background="/images/ct_btnbg02.gif" class="ct_btn01"
-									style="padding-top: 3px;"><a
-									href="javascript:fncGetList('1');">검색</a></td>
+									style="padding-top: 3px;">
+									<a class="Search_btn01">검색</a></td>
 								<td width="14" height="23"><img
 									src="/images/ct_btnbg03.gif" width="14" height="23"></td>
 							</tr>
@@ -88,7 +96,7 @@
 				</select>
 						<input type="text" name="startPrice" value="${searchVO.startPrice}">~
 						<input type="text" name="endPrice" value="${searchVO.endPrice}">
-						<a href="javascript:fncGetList('1');" class="Search_btn">검색</a>
+						<a  class="Search_btn02">검색</a>
 					</td>
 				</tr>
 			</table>
@@ -119,7 +127,7 @@
 					<c:set var="i" value="0"/>
 						<c:forEach var="productVO" items="${list }">
 							<c:set var="i" value="${i+1 }"/>
-								<tr class="ct_list_pop">
+								<tr class="ct_list_pop.purchase">
 						 <c:if test="${! empty productVO.productValue || productVO.productValue eq '0'}"> 
 							<td align="center">${i }</td>
 							<td></td>
@@ -132,31 +140,27 @@
 							<td></td>
 							<td align="left">
 							<c:choose>
-								<c:when test="${userVO.userId eq 'admin' }">
+								<c:when test="${user.userId eq 'admin' }">
 									<c:choose>						
 											<c:when test="${ productVO.proTranCode eq 'null'  }">
 												판매중						
 											</c:when>								
-										<c:when test="${! empty productVO.proTranCode && productVO.proTranCode eq '구매완료' }">
-											<a href="/purchase/updateTranCodeByProd?prodNo=${productVO.prodNo }&tranCode=${purchaseVO.tranCode}">
+										 <c:when test="${! empty productVO.proTranCode && productVO.proTranCode eq '구매완료' }">
+										 	<input type="button" name="purchaseuUpdate" value="배송하기">
+												<a href="/purchase/updateTranCodeByProd?prodNo=${productVO.prodNo }&tranCode=${purchaseVO.tranCode}">
 													배송하기 </a> 	
-										</c:when>
+										</c:when> 
 										<c:otherwise>							
-												${productVO.proTranCode }						
+												${productVO.proTranCode }
+																	
 										</c:otherwise>	
 									</c:choose>																			
 								</c:when>
-									<c:when test="${! empty productVO.proTranCode }">
-											${productVO.proTranCode }
-									</c:when>
-									<c:otherwise>
-											판매중
-									</c:otherwise>
 							</c:choose>						
 						</td>					
 					<td></td>
 				<td align="left">${productVO.productValue }</td>
-				</c:if>
+				</c:if> 
 				</tr>
 				<tr>
 					<td colspan="11" bgcolor="D6D7D6" height="1"></td>
@@ -170,7 +174,7 @@
 				<tr>
 					<td align="center">
 					 <input type="hidden" id="currentPage" name="currentPage" value=""/>
-						<jsp:include page="../common/pageNavigator.jsp"/>	
+						<jsp:include page="../common/pageNavigator.jsp"/>
 					</td>
 				</tr>
 			</table>

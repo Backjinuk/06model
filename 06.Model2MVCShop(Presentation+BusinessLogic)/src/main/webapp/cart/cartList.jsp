@@ -16,29 +16,6 @@
 		$("form").attr("acton", "/cart/getCartList").attr("method" , "post").submit;
 	}
 	
-/* 	function count(type, i) {		
-		//alert("type: " + i);
-		
-		var product = document.getElementById("productValue").value;
-		//alert("product: " + product);
-		var resultElement = document.getElementById("result"+i);
-		
-		var chk_value = document.getElementById("cartValue"+i);
-		
-		var number = resultElement.innerText;
-		//alert("resultElement : " +  parseInt(number));
-		
-		if(type == "plus" && parseInt(number) < parseInt(product)){
-			number = parseInt(number) +1;
-		}else if( type == "minus" && number > 0) { 
-			number = parseInt(number) -1;			
-		}else{
-			alert("±×¸¸ÇØ~~~");
-		}		
-		resultElement.innerText = number;
-		chk_value.value = number; 
-	}  */
-	
 	$( function() {
 		
 		$(".bnt01").on("click", function() {
@@ -48,8 +25,6 @@
 			var result = $(this).parents(".ct_list_pop").find("#result");
 			
 			var number = result.text().trim();
-			
-				
 			
 			if( $(this).val() == '+' && parseInt(number) < parseInt(product)){
 				number = parseInt(number) + 1;

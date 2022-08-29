@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 <%@ page pageEncoding="EUC-KR"%>
 
-
 <html>
 <head>
 <title>상품등록</title>
@@ -12,23 +11,25 @@
 
 	$(function() {		
 		
-		$(".ct_btn01:contains('등록')	").on("click", function() {			
+		$(".ct_btn01:contains('등록')").on("click", function() {			
 			//$.post("/product/addProduct").submit();			
 			alert("등록합니다");
-			$("from").attr("action", "/product/addProduct").attr("method", "POST").submit();
+			alert($("input[type='file']").val())
+			$("form").attr("action", "/product/addProduct").attr("method", "POST").submit();
 		});
 		
 		$(".ct_btn01:contains('취소')").on("click", function() {
 			history.go(-1);
-		})
-	})
+			
+		});
+		
+	});
 </script>
 
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
-<!-- 유효성 chek -->
-<form>
+<form enctype="multipart/form-data">
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
 		<td width="15" height="37">
@@ -119,11 +120,23 @@
 	</tr>
 	
 	<tr>
-		<td width="104" class="ct_write">상품정보</td>
+		<td width="104" class="ct_write">파일업로드</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="file" name="fileName" class="ct_input_g" value="찾아보기"
-							style="width:100px; height:19px" onChange="javascript:checkSsn();"  maxLength="13" >
+			<input 	type="file"  name="uploadFile" >
+		
+		</td>
+	</tr>
+	
+		<tr>
+		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
+	</tr>
+	
+	<tr>
+		<td width="104" class="ct_write">수량</td>
+		<td bgcolor="D6D6D6" width="1"></td>
+		<td class="ct_write01">
+			<input 	type="text"  name="productValue" >
 		
 		</td>
 	</tr>

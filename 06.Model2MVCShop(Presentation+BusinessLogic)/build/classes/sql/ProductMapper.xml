@@ -15,7 +15,7 @@
 		<result property="fileName" 	column="image_file" 		jdbcType="VARCHAR"/>	
 		<result property="proTranCode" 	column="tc"					jdbcType="VARCHAR" />
 		<result property="regDate" 		column="reg_date" 			jdbcType="DATE"/>	
-		<result property="productValue"  column="product_value" 		jdbcType="INTEGER"/>
+		<result property="productValue"  column="product_value" 	jdbcType="INTEGER"/>
 	</resultMap>
 	
 	
@@ -49,7 +49,8 @@
 			prod_detail 		= #{prodDetail},
 			image_file			= #{fileName},
 			manufacture_day		= #{manuDate},
-			price				=#{price},
+			price				= #{price},
+			product_value		= #{productValue},
 			reg_date 			= SYSDATE
 		</set>
 			WHERE prod_no=#{prodNo}

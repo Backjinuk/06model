@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="ReCommentMapper">
+
+	<resultMap type="recomment" id="recommentSelectMap">
+		<result property="recommentNo" 			column="recomment_no" 		jdbcType="INTEGER"/>
+		<result property="userId.userId" 		column="user_id"			jdbcType="VARCHAR"/>
+		<result	property="prodNo.prodNo"		column="prod_no"			jdbcType="INTEGER"/>
+		<result property="commentNo.commentNo" 	column="commet_no" 		jdbcType="INTEGER"/>
+		<result property="recommentTitle"		column="recomment_title" 	jdbcType="VARCHAR"/>
+		<result	property="regDate"				column="reg_date"			jdbcType="DATE"/>
+	</resultMap>
+
+<insert id="addReComment" parameterType="recomment">
+	INSERT INTO 
+		recomment(recomment_no, user_id, prod_no, commet_no, recomment_title, reg_date)
+	VALUES(	seq_recomment_tran_no.NEXTVAL
+			,#{userId.userId}
+			,#{prodNo.prodNo}
+			,#{commentNo.commentNo}
+			,#{recommentTitle}
+			,SYSDATE)
+</insert>
+
+	<select id="listReComment" parameterType="map" resultMap="recommentSelectMap">
+	SELECT *
+	FROM recomment	
+	where commet_no = #{commentNo}
+	</select>
+	
+	<update id="updateReComment" parameterType="recomment">
+		UPDATE
+		recomment
+		<set>
+			recomment_title = #{recommentTitle},
+			reg_date = SYSDATE
+		</set>
+		WHERE recomment_no = #{recommentNo}
+	</update>
+	
+	<delete id="deleteReComment" parameterType="int">
+		DELETE
+		recomment
+		where recomment_no = #{recommentNo}
+	</delete>
+
+</mapper>

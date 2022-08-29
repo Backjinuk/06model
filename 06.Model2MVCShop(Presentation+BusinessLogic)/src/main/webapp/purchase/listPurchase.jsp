@@ -85,6 +85,7 @@
 		<c:if test="${purchaseVO.tranCode == '배송완료'}">
 			<a	href="/purchase/updateTranCode?prodNo=${purchaseVO.purchaseProd.prodNo }&tranCode=${purchaseVO.tranCode}">
 					물건도착 </a> 
+			<input type="button" name="review" value="리뷰 작성하기"  style="border: none; outline: 0">
 		</c:if>
 		</td>
 	</tr>
